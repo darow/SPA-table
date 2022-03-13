@@ -5,7 +5,7 @@ export const filterComp = {
                 <label for="field-inp">поле:</label><br>
                 <select name="" id="field-inp" 
                     @change="changeField($event)"
-                >
+                    >
                 <option
                     v-for="val in fieldNames"
                     :key=val
@@ -30,7 +30,7 @@ export const filterComp = {
 
                 <input type="text" id="val-inp"
                     @change="changeVal($event)"
-                ></input><br>
+                    /><br>
                 <div class="btn btn-primary m-3" @click="makeFilter(field, cond, value)">Отфильтровать</div> <br>
                 <div class="btn btn-secondary m-3" @click="makeFilter('', '', '')">Сбросить фильтры</div> 
             </form>
@@ -47,27 +47,29 @@ export const filterComp = {
             default: () => {},
         },
     },
-    data: function() {
+    mounted() {
+        this.$emit('make-filter', this.field, this.cond, this.value);
+    },
+    data() {
         return {
             field: '',
             cond: '',
             value: '',
             conditions: ["equal", "contains", "more", "less"],
-            msg: 'asd',
         };
     },
     methods: {
-        changeField: function(e) {
+        changeField(e) {
             this.field = e.target.value
         },
-        changeCond: function(e) {
+        changeCond(e) {
             this.cond = e.target.value
         },
-        changeVal: function(e) {
+        changeVal(e) {
             this.value = e.target.value
         },
     },
-    created: function() {
+    created() {
         if (this.fieldNames.length > 0) {
             this.field = this.fieldNames[0];
         }

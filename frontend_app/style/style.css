@@ -18,3 +18,8 @@ td {
 thead td {
     cursor: pointer;
 }
+
+.bg-secondary {
+    cursor: auto;
+    color: white;
+}

@@ -9,7 +9,7 @@ const app = new Vue({
     },
     template: `
         <div>  
-            <table-comp></table-comp>
+            <table-comp/>
         </div>
     `,
 })

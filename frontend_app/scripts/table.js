@@ -8,10 +8,10 @@ export const tableComp = {
         <div class="container">
             <div class="row">
                 <filter-inputs
+                    @make-filter="handleMakeFilter"
                     :fieldNames="fieldNames"
                     :makeFilter="makeFilter"
-                >
-                </filter-inputs>
+                />
             
                 <table
                     :class="vari"
@@ -19,10 +19,10 @@ export const tableComp = {
                     <thead>
                         <tr>
                             <td
-                                class="bg-warning"
+                                v-bind:class="{ 'bg-warning': fieldName != 'date', 'bg-secondary': fieldName == 'date' }"
                                 v-for="fieldName in fieldNames"
                                 :key="fieldName"
-                                @click="fieldName === 'date' ? '' : makeSort(fieldName)"
+                                @click="makeSort(fieldName)"
                             >
                                 {{ fieldName }}
                             </td>
@@ -44,14 +44,9 @@ export const tableComp = {
             </div>
         </div>
     `,
-    props: {
-        vari : {
-            type: String,
-            default: '',
-        },
-    },
     data: function() {
         return {
+            asdfasdfsfd: false,
             fieldNames: ["date", "name", "quantity", "length"],
             url: "http://127.0.0.1:8000/objects/",
             orderBy: "",
@@ -60,7 +55,7 @@ export const tableComp = {
         };
     },
     methods: {
-        updateData: function () {
+        updateData() {
             const url = `${this.url}?order_by=${this.orderBy}&filter_field=${this.filterParams.field}&filter_cond=${this.filterParams.cond}&filter_val=${this.filterParams.value}`
             fetch(url)
                 .then((response) => {
@@ -70,7 +65,8 @@ export const tableComp = {
                     this.objects = data;
                 });
         },
-        makeSort: function (sortBy) {
+        makeSort(sortBy) {
+            if (sortBy === 'date') return;
             if (this.orderBy === sortBy) {
                 this.orderBy = `-${sortBy}`;
             } else {
@@ -78,7 +74,7 @@ export const tableComp = {
             }
             this.updateData();
         },
-        makeFilter: function (field, cond, value) {
+        handleMakeFilter(field, cond, value) {
             this.filterParams.field = field
             this.filterParams.cond = cond
             this.filterParams.value = value
