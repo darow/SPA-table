@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Таблица</title>
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/bootstrap.min.css">
+</head>
+<body>
+<div id="app">
+
+
+    <table>
+        <thead>
+            <tr>
+                <td class="bg-warning" v-for="fieldName in fieldNames" v-on:click="sort(fieldName)">{{fieldName}}</td>
+                <!-- <td><button v-on:click="sort(date)" class="btn btn-warning">date</button></td>
+                <td><button v-on:click="sort" class="btn btn-warning">name</button></td>
+                <td><button v-on:click="sort" class="btn btn-warning">quantity</button></td>
+                <td><button v-on:click="sort" class="btn btn-warning">length</button></td> -->
+            </tr>
+        </thead>
+        <div class="vue-here">
+
+        </div>
+        <tr v-for="obj in objects" :key="obj.id">
+            <td>{{ obj.date }}</td>
+            <td>{{ obj.name }}</td>
+            <td>{{ obj.quantity }}</td>
+            <td>{{ obj.length }}</td>
+
+        </tr>
+    </table>
+
+</div>
+
+
+<script src="scripts/vue.js"></script>
+<script src="scripts/script.js"></script>
+</body>
+</html>
