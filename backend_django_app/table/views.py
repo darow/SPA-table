@@ -1,18 +1,5 @@
-# import APIView as APIView
-from django.core import serializers
 from django.http import JsonResponse
-from django.db.models import F, Func, Value, CharField
-
-# from rest_framework.response import Response
-
 from .models import ObjectName
-
-
-#
-# class MyOwnView(APIView):
-#     def get(self, request):
-#         return Response({'some': 'data'})
-
 
 def get_objects(request):
     objs = ObjectName.objects.order_by('?')

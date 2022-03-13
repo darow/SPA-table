@@ -1,8 +1,10 @@
-import { filterComp } from './inputs.js';
+import { filterComp } from './filter.js';
+import { paginatedDataComp } from './pagination.js';
 
 export const tableComp = {
     components : {
         'FilterInputs': filterComp,
+        'PaginatedData': paginatedDataComp
     },
     template: `
         <div class="container">
@@ -10,48 +12,31 @@ export const tableComp = {
                 <filter-inputs
                     :fieldNames="fieldNames"
                     :makeFilter="makeFilter"
-                >
-                </filter-inputs>
+                />
             
-                <table
-                    :class="vari"
-                >
+                <table>
                     <thead>
                         <tr>
                             <td
-                                class="bg-warning"
+                                v-bind:class="{ 'bg-warning': fieldName != 'date', 'bg-secondary': fieldName == 'date' }"
                                 v-for="fieldName in fieldNames"
                                 :key="fieldName"
-                                @click="fieldName === 'date' ? '' : makeSort(fieldName)"
+                                @click="makeSort(fieldName)"
                             >
                                 {{ fieldName }}
                             </td>
                         </tr>
                     </thead>
-                    <div class="vue-here">
 
-                    </div>
-                    <tr
-                        v-for="obj in objects"
-                        :key="obj.id"
-                    >
-                        <td>{{ obj.date }}</td>
-                        <td>{{ obj.name }}</td>
-                        <td>{{ obj.quantity }}</td>
-                        <td>{{ obj.length }}</td>
-                    </tr>
+                    <paginated-data :objects=objects></paginated-data> 
                 </table>
+                
             </div>
         </div>
     `,
-    props: {
-        vari : {
-            type: String,
-            default: '',
-        },
-    },
     data: function() {
         return {
+            asdfasdfsfd: false,
             fieldNames: ["date", "name", "quantity", "length"],
             url: "http://127.0.0.1:8000/objects/",
             orderBy: "",
@@ -60,7 +45,7 @@ export const tableComp = {
         };
     },
     methods: {
-        updateData: function () {
+        updateData() {
             const url = `${this.url}?order_by=${this.orderBy}&filter_field=${this.filterParams.field}&filter_cond=${this.filterParams.cond}&filter_val=${this.filterParams.value}`
             fetch(url)
                 .then((response) => {
@@ -70,7 +55,8 @@ export const tableComp = {
                     this.objects = data;
                 });
         },
-        makeSort: function (sortBy) {
+        makeSort(sortBy) {
+            if (sortBy === 'date') return;
             if (this.orderBy === sortBy) {
                 this.orderBy = `-${sortBy}`;
             } else {
@@ -78,7 +64,7 @@ export const tableComp = {
             }
             this.updateData();
         },
-        makeFilter: function (field, cond, value) {
+        makeFilter(field, cond, value) {
             this.filterParams.field = field
             this.filterParams.cond = cond
             this.filterParams.value = value
