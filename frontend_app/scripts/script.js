@@ -1,5 +1,4 @@
 import { tableComp } from './table.js';
-import { filterComp } from './inputs.js';
 
 
 const app = new Vue({

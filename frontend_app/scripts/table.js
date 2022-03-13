@@ -1,21 +1,20 @@
-import { filterComp } from './inputs.js';
+import { filterComp } from './filter.js';
+import { paginatedDataComp } from './pagination.js';
 
 export const tableComp = {
     components : {
         'FilterInputs': filterComp,
+        'PaginatedData': paginatedDataComp
     },
     template: `
         <div class="container">
             <div class="row">
                 <filter-inputs
-                    @make-filter="handleMakeFilter"
                     :fieldNames="fieldNames"
                     :makeFilter="makeFilter"
                 />
             
-                <table
-                    :class="vari"
-                >
+                <table>
                     <thead>
                         <tr>
                             <td
@@ -28,19 +27,10 @@ export const tableComp = {
                             </td>
                         </tr>
                     </thead>
-                    <div class="vue-here">
 
-                    </div>
-                    <tr
-                        v-for="obj in objects"
-                        :key="obj.id"
-                    >
-                        <td>{{ obj.date }}</td>
-                        <td>{{ obj.name }}</td>
-                        <td>{{ obj.quantity }}</td>
-                        <td>{{ obj.length }}</td>
-                    </tr>
+                    <paginated-data :objects=objects></paginated-data> 
                 </table>
+                
             </div>
         </div>
     `,
@@ -74,7 +64,7 @@ export const tableComp = {
             }
             this.updateData();
         },
-        handleMakeFilter(field, cond, value) {
+        makeFilter(field, cond, value) {
             this.filterParams.field = field
             this.filterParams.cond = cond
             this.filterParams.value = value

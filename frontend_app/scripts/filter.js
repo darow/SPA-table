@@ -47,9 +47,6 @@ export const filterComp = {
             default: () => {},
         },
     },
-    mounted() {
-        this.$emit('make-filter', this.field, this.cond, this.value);
-    },
     data() {
         return {
             field: '',
